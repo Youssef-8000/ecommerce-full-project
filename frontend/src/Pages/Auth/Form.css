@@ -1,0 +1,19 @@
+body {background-color: aliceblue;}
+
+.container {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: fit-content;
+    border: 2px solid;
+    padding: 10px;
+    margin: auto;
+}
+.itemsMi {
+    display: block;
+    margin-left: 5px;
+    margin-bottom: 15px;
+}
+.labelText {
+    display: block;
+}

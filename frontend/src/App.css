@@ -1,0 +1,107 @@
+/* /* import { Grid, Checkbox, FormControlLabel } from "@mui/material";
+import nestedValues from "../helpers/getNestedProps";
+import LabelComp from "./LabelComp";
+
+/* function CheckBoxComp({
+  element,
+  children,
+  isRequired,
+  register,
+  data,
+  formData,
+  formValues,
+}: any) {
+  let dataMapping;
+  let foundObject;
+  //if the element has a dependency go into the if condition
+  if (element.dependency) {
+    //element.data is the path. data is a string like person.name.first so it will go through the object data and returns person.name.first value
+    dataMapping = nestedValues(data, element.data);
+    //checks the found object if it matches a specific value from data
+    foundObject = dataMapping?.find(
+      (item: any) => item.titleCode === data[element.dependency]
+    );
+  }
+
+  return (
+    <>
+      <LabelComp element={element} />
+      {/* this checks if the checkbox data is coming from the back end if it's true then do 1 */
+      /* {element.dependency ? (
+        <Grid
+        //what is item? and container?
+          item
+          container
+          lg={element.lg || 12}
+          md={element.md || 12}
+          sm={element.sm || 12}
+          className="my-1"
+          key={element.id}
+        >
+          {/*what is procurationOptions */
+          /* {from what i get it maps through the formData array and creates a checkbox label for each array} */
+          /* {foundObject?.procurationOptions?.map((option: any, index: any) => (
+            <Grid item lg={option.lg} key={option.optionCode + index}>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                  //checks option readonly if it's true or false to decide to enable to disable the checkbox
+                    checked={option.readOnly}
+                    disabled={option.readOnly}
+                    color="primary"
+                    //checks value
+                    value={option.optionCode}
+                    // element.name is the element name that shows up in the react hook from submission json
+                    {...register(element.name, {
+                      //this is the  validation happening on the input field
+                      required: isRequired || element.dependency, */
+                    /* })}
+                  />
+                }
+                label={
+                  <>
+                    {option.optionLabel}
+                    {/* if required add danger text with * */
+                    /* {isRequired && <span className="text-danger">*</span>}
+                  </> */
+                /* }
+              />
+              {children}
+            </Grid>
+          ))}
+        </Grid>
+      ) : (
+        // if the data is static do this go through the array that has label and value
+        <>
+          {element.arr.map((option: any, index: any) => (
+            <Grid item lg={option.lg} key={index}>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={option.readOnly}
+                    disabled={option.readOnly}
+                    color="primary" */
+                    /* value={option.value}
+                    {...register(element.name, {
+                      required: isRequired || element.dependency,
+                    })}
+                  />
+                }
+                label={
+                  <>
+                    {option.label}
+                    {isRequired && <span className="text-danger">*</span>} */
+                  /* </>
+                }
+              /> */
+              /* {rest of the page */
+              /* {children}
+            </Grid>
+          ))}
+        </>
+      )}
+    </>
+  );
+}
+
+export default CheckBoxComp; */
