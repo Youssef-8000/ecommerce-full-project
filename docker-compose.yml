@@ -41,6 +41,30 @@ services:
     volumes:
       - ./users_service:/app
       - /app/node_modules
+
+  cart_service:
+    build: ./cart_service
+    container_name: cart_service_container
+    ports:
+      - "5001:5001"
+    networks:
+      - ecommerce-app
+    links:
+      - cart_db
+    restart: on-failure
+    depends_on:
+      - cart_db
+    volumes:
+      - ./cart_service:/app
+      - /app/node_modules
+  cart_db:
+    image: mongo:3.6.19-xenial
+    ports:
+      - "27019:27017"
+    networks:
+      - ecommerce-app
+    volumes:
+      - cart-volume:/data/db
   order_db:
     image: mongo:3.6.19-xenial
     ports:
@@ -64,4 +88,6 @@ volumes:
   order-volume:
     driver: local
   users-volume:
+    driver: local
+  cart-volume:
     driver: local
