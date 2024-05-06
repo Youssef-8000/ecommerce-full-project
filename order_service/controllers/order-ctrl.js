@@ -28,7 +28,7 @@ addOrderToUser = (req, res) => {
   console.log("order", order);
 
   if (!order) {
-    return res.status(400).json({ success: false, error: err });
+    return res.status(400).json({ success: false, error: "order failed!" });
   }
 
   if (order.productIds.length != 0) {
@@ -48,7 +48,7 @@ addOrderToUser = (req, res) => {
         });
       });
   } else {
-    return res.status(400).json({ success: false, error: err });
+    return res.status(400).json({ success: false, error: "Order products is Empty!" });
   }
 };
 
