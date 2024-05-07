@@ -1,9 +1,9 @@
 const express = require('express');
-// const OrderCtrl = require('../controllers/order-ctrl');
+const Payment = require('../controllers/payment_crtl');
 const router = express.Router();
 
-router.post('/payment',);
-router.get('/payment/:userId', );
-
+router.post('/payment/:userId', Payment.payUserCart );
+router.get('/payments', Payment.getPayments);
+router.get('/payments/total', Payment.getTotal);
 
 module.exports = router;
