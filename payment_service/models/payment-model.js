@@ -4,9 +4,7 @@ const Schema = mongoose.Schema
 const Payment = new Schema(
     {
         userId: { type: String, required: true },
-        total_price: Number ,
-    
-
+        total: Number ,
     },
     { timestamps: true },
 )

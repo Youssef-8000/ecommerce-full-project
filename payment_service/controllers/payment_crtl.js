@@ -9,7 +9,22 @@ payUserCart = async (req, res) => {
     const payment = new Payment(body);
     payment.total = req.body.total;
 
-    return res.status(200).json({ success: true, data: payment });
+    try {
+      const savedPayment = await payment.save();
+      return res.status(201).json({
+        success: true,
+        id: savedPayment._id,
+        total: savedPayment.total,
+        message: 'payment created!',
+      });
+    }catch (error) {
+      console.error(error);
+      return res.status(400).json({
+        success: false,
+        error: error.message || 'payment not created!',
+      });
+    }
+
   } catch (err) {
     console.error(err);
     return res.status(400).json({ success: false, error: err });
