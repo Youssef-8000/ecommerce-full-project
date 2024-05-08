@@ -58,4 +58,8 @@ getTotal = async (req, res) => {
   }
 };
 
-module.exports = { payUserCart, getPayments, getTotal };
+checkServiceRunning = (req,res)=> {
+  res.send('User Service running');
+}
+
+module.exports = { payUserCart, getPayments, getTotal, checkServiceRunning };

@@ -1,16 +1,17 @@
 version: "3"
 services:
-  frontend:
-    build: ./frontend
-    container_name: frontend_container
-    stdin_open: true
-    ports:
-      - "8080:8080"
-    networks:
-      - ecommerce-app
-    volumes:
-      - ./frontend:/app
-      - /app/node_modules
+  # frontend:
+  #   build: ./frontend
+  #   container_name: frontend_container
+  #   stdin_open: true
+  #   ports:
+  #     - "8080:8080"
+  #   networks:
+  #     - ecommerce-app
+  #   volumes:
+  #     - ./frontend:/app
+  #     - /app/node_modules
+
   order_service:
     build: ./order_service
     container_name: order_service_container
@@ -26,6 +27,7 @@ services:
     volumes:
       - ./order_service:/app
       - /app/node_modules
+
   users_service:
     build: ./users_service
     container_name: users_service_container
@@ -57,6 +59,39 @@ services:
     volumes:
       - ./cart_service:/app
       - /app/node_modules
+
+  products_service:
+    build: ./products_service
+    container_name: products_service_container
+    ports:
+      - "5002:5002"
+    networks:
+      - ecommerce-app
+    links:
+      - products_db
+    restart: on-failure
+    depends_on:
+      - products_db
+    volumes:
+      - ./products_service:/app
+      - /app/node_modules
+
+  payment_service:
+    build: ./payment_service
+    container_name: payment_service_container
+    ports:
+      - "5003:5003"
+    networks:
+      - ecommerce-app
+    links:
+      - payment_db
+    restart: on-failure
+    depends_on:
+      - payment_db
+    volumes:
+      - ./payment_service:/app
+      - /app/node_modules
+
   cart_db:
     image: mongo:3.6.19-xenial
     ports:
@@ -65,6 +100,7 @@ services:
       - ecommerce-app
     volumes:
       - cart-volume:/data/db
+
   order_db:
     image: mongo:3.6.19-xenial
     ports:
@@ -73,6 +109,7 @@ services:
       - ecommerce-app
     volumes:
       - order-volume:/data/db
+
   users_db:
     image: mongo:3.6.19-xenial
     ports:
@@ -81,6 +118,25 @@ services:
       - ecommerce-app
     volumes:
       - users-volume:/data/db
+
+  products_db:
+    image: mongo:3.6.19-xenial
+    ports:
+      - "27020:27017"
+    networks:
+      - ecommerce-app
+    volumes:
+      - products-volume:/data/db
+
+  payment_db:
+    image: mongo:3.6.19-xenial
+    ports:
+      - "27021:27017"
+    networks:
+      - ecommerce-app
+    volumes:
+      - payment-volume:/data/db
+
 networks:
   ecommerce-app:
     driver: bridge
@@ -90,4 +146,8 @@ volumes:
   users-volume:
     driver: local
   cart-volume:
+    driver: local
+  products-volume:
+    driver: local
+  payment-volume:
     driver: local
