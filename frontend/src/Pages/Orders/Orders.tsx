@@ -3,9 +3,9 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import CircleIcon from "@mui/icons-material/Circle";
 
-function Orders() {
+function Orders({setIsAuthenticated}:any) {
   const baseURL = "http://localhost:5006";
-  const userId = "1";
+  const userId = localStorage.getItem("userId");
   const [orders, setOrders] = useState<any>(undefined);
   const getOrdersFromUserID = () => {
     const path = `/api/order/${userId}`;
@@ -36,7 +36,7 @@ function Orders() {
         <Box sx={{ fontSize: "2rem" }}>Orders</Box>
         <Box>You will find all your orders here!</Box>
       </Grid>
-      <Grid container justifyContent="center">
+      {orders ? <Grid container justifyContent="center">
         {orders &&
           orders?.map((order: any, index: any) => {
             console.log(order);
@@ -92,7 +92,7 @@ function Orders() {
               </Grid>
             );
           })}
-      </Grid>
+      </Grid>: <div style={{textAlign: "center"}}>API Has failed!</div>}
     </>
   );
 }

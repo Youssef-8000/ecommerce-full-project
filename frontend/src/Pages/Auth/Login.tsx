@@ -1,9 +1,10 @@
-import { Button, FormLabel } from "@mui/material";
+import { Button, FormLabel, Snackbar } from "@mui/material";
 import "./Form.css";
 import { FieldErrors, SubmitHandler, useForm } from "react-hook-form";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import FormTextField from "../../Components/TextFieldForm";
+import { useNavigate } from "react-router-dom";
 
 interface FormInput {
   username: string;
@@ -13,7 +14,22 @@ interface FormInput {
 const baseURL = "http://localhost:5000";
 
 function Login() {
-  const [post, setPost] = useState(null);
+  // const [isAuthenticated, setIsAuthenticated] = useState(localStorage.getItem("isAuthenticated") || undefined);
+  // useEffect(() => {
+  //   setIsAuthenticated(localStorage.getItem("isAuthenticated"));
+  // }, [isAuthenticated]);
+  const [open, setOpen] = useState(false);
+  const [error, setError] = useState(false);
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const navigate = useNavigate();
+
+  const handleNavigate = () => {
+    navigate("/Register");
+}
 
   const { register, handleSubmit } = useForm<FormInput>();
 
@@ -29,7 +45,12 @@ function Login() {
     const path = "/api/user/auth";
     axios.post(baseURL + path, data).then((response) => {
       console.log("response",response)
-      setPost(response.data.value);
+      localStorage.setItem("userId", response?.data?.id);
+      setOpen(true)
+      navigate("/Products");
+    }).catch((error)=>{
+      console.log(error)
+      setError(true)
     });
   }
 
@@ -97,12 +118,23 @@ function Login() {
           {/* Submit Button */}
 
           <div style={{ width: "fit-content", margin: "auto" }}>
-            <Button type="submit" variant="contained">
+            <Button sx={{mr:"10px"}} type="submit" variant="contained">
               Login
             </Button>
+            <Button type="submit" variant="contained" onClick={handleNavigate}>
+              Go To Register
+            </Button>
           </div>
+          {error && <div style={{ width: "fit-content", margin: "auto" }}>service Auth is down</div>}
         </form>
       </div>
+      <Snackbar
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        open={open}
+        onClose={handleClose}
+        message="Logged in Successfully"
+        key={"anything"}
+      />
     </div>
   );
 }

@@ -1,9 +1,10 @@
-import { Button, FormLabel } from "@mui/material";
+import { Button, FormLabel, Snackbar } from "@mui/material";
 import "./Form.css";
 import { FieldErrors, SubmitHandler, useForm } from "react-hook-form";
 import { useState } from "react";
 import axios from "axios";
 import FormTextField from "../../Components/TextFieldForm";
+import { useNavigate } from "react-router-dom";
 
 interface FormInput {
   username: string;
@@ -14,7 +15,19 @@ interface FormInput {
 const baseURL = "http://localhost:5000";
 
 function Register() {
+  const [open, setOpen] = useState(false);
   const [post, setPost] = useState(null);
+  const [error, setError] = useState(false);
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const navigate = useNavigate();
+
+  const handleNavigate = () => {
+    navigate("/Login");
+}
 
   const { register, handleSubmit } = useForm<FormInput>();
 
@@ -30,7 +43,11 @@ function Register() {
     const path = "/api/user/register";
     axios.post(baseURL + path, data).then((response) => {
       setPost(response.data.value);
+      setOpen(true)
       console.log("registered:", response)
+    }).catch((error)=>{
+      console.log(error)
+      setError(true)
     });
   }
 
@@ -114,12 +131,23 @@ function Register() {
           {/* Submit Button */}
 
           <div style={{ width: "fit-content", margin: "auto" }}>
-            <Button type="submit" variant="contained">
+          <Button sx={{mr:"10px"}} type="submit" variant="contained">
               Register
             </Button>
+            <Button type="submit" variant="contained" onClick={handleNavigate}>
+              Go To Login
+            </Button>
           </div>
+          {error && <div style={{ width: "fit-content", margin: "auto" }}>service Auth is down</div>}
         </form>
       </div>
+      <Snackbar
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        open={open}
+        onClose={handleClose}
+        message="Registered Successfully"
+        key={"anything"}
+      />
     </div>
   );
 }
