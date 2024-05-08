@@ -44,6 +44,24 @@ addProductsToCart = async (req, res) => {
     }
 }
 
+deleteCart = async (req, res) => {
+    const cartId = req.params.cartId;
+
+    try {
+        const deletedCart = await Cart.findByIdAndDelete(cartId);
+
+        if (!deletedCart) {
+            return res.status(404).json({ success: false, error: 'Cart not found' });
+        }
+
+        return res.status(200).json({ success: true, message: 'Cart deleted successfully' });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ success: false, error: 'Internal server error' });
+    }
+}
+
+
 checkServiceRunning = (req, res) => {
     res.send('Hello World! - from shopping cart service.');
 }
@@ -51,5 +69,6 @@ checkServiceRunning = (req, res) => {
 module.exports = {
     getProductsFromCart,
     addProductsToCart,
+    deleteCart,
     checkServiceRunning
 };

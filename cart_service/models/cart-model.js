@@ -5,6 +5,7 @@ const Cart = new Schema(
     {
         userId: { type: String, required: true },
         productId: { type: String, required: true },
+        price:{type: String, required: true },
     },
     { timestamps: true },
 )
